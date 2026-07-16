@@ -20,11 +20,28 @@ The installer creates these user-level links:
 ```text
 ~/.codex/AGENTS.md   -> <repository>/AGENTS.md
 ~/.codex/config.toml -> <repository>/codex/config.toml
+~/.codex/notify.sh -> <repository>/notifications/notify.sh
 ~/.claude/CLAUDE.md -> <repository>/CLAUDE.md
 ~/.claude/settings.json -> <repository>/claude/settings.json
+~/.claude/notify.sh -> <repository>/notifications/notify.sh
 ~/.claude/iterm2-tab.sh -> <repository>/claude/iterm2-tab.sh
 ~/.claude/statusline.sh -> <repository>/claude/statusline.sh
 ```
+
+## Notifications
+
+Codex and Claude Code share a balanced notification policy:
+
+- Input needed: amber tab, desktop notification, and the Purr sound.
+- Turn finished: green tab; a quiet desktop notification only for turns that
+  take at least 30 seconds.
+- Failure: red tab, desktop notification, and the Basso sound when the agent
+  exposes a failure event.
+- Focused sessions do not produce desktop notifications or sounds.
+
+Set `CODING_AGENT_NOTIFY_MIN_SECONDS` when launching an agent to change the
+long-turn threshold. Notification bodies identify the agent and project but do
+not include prompt or response text.
 
 It is safe to run again when the expected links already exist. It refuses to
 replace conflicting files or links; move those paths elsewhere before retrying.

@@ -2,6 +2,7 @@ personality = "pragmatic"
 model = "gpt-5.6-sol"
 plan_mode_reasoning_effort = "xhigh"
 model_reasoning_effort = "xhigh"
+notify = ["bash", "-c", 'exec "${CODEX_HOME:-${HOME}/.codex}/notify.sh" codex turn-complete "$1"', "codex-notify"]
 
 [plugins."github@openai-curated"]
 enabled = true
@@ -13,11 +14,61 @@ enabled = true
 approval_mode = "approve"
 
 [tui]
+notifications = false
 status_line = ["model-with-reasoning", "current-dir", "git-branch", "pull-request-number", "context-remaining", "five-hour-limit", "weekly-limit", "context-window-size"]
 status_line_use_colors = true
+terminal_title = []
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 4
 
 [mcp_servers.expo]
 url = "https://mcp.expo.dev/mcp"
 
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
+
+[projects."/Users/wng/Projects/coding_agent_config"]
+trust_level = "trusted"
+
+[[hooks.SessionStart]]
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = 'exec "${CODEX_HOME:-${HOME}/.codex}/notify.sh" codex session-start'
+timeout = 2
+
+[[hooks.UserPromptSubmit]]
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = 'exec "${CODEX_HOME:-${HOME}/.codex}/notify.sh" codex prompt-submitted'
+timeout = 2
+
+[[hooks.PermissionRequest]]
+
+[[hooks.PermissionRequest.hooks]]
+type = "command"
+command = 'exec "${CODEX_HOME:-${HOME}/.codex}/notify.sh" codex attention'
+timeout = 2
+
+[[hooks.PostToolUse]]
+
+[[hooks.PostToolUse.hooks]]
+type = "command"
+command = 'exec "${CODEX_HOME:-${HOME}/.codex}/notify.sh" codex working'
+timeout = 2
+
+[hooks.state]
+
+[hooks.state."/Users/wng/.codex/config.toml:permission_request:0:0"]
+trusted_hash = "sha256:c82737f4652cd10a32f005a444bf45199ec513f9346879351f677297af54d6fc"
+
+[hooks.state."/Users/wng/.codex/config.toml:post_tool_use:0:0"]
+trusted_hash = "sha256:2c1b344e91145b00499e0c6abbb9166c90e0a3a4758b8e9eb4e73d2598208e0c"
+
+[hooks.state."/Users/wng/.codex/config.toml:session_start:0:0"]
+trusted_hash = "sha256:6e3c6675f44f4342fc06effb4b85281a1f6f42263d162adeff25e8002ffd3d7e"
+
+[hooks.state."/Users/wng/.codex/config.toml:user_prompt_submit:0:0"]
+trusted_hash = "sha256:9807a33b6b67d8acffcd99c6c9fb52556b1b7dc3fa27d90ea1ec453a6e00e974"

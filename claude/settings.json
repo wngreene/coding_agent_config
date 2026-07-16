@@ -134,13 +134,14 @@
   },
   "model": "claude-fable-5[1m]",
   "theme": "dark",
+  "preferredNotifChannel": "notifications_disabled",
   "hooks": {
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude_icloud/iterm2-tab.sh start"
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude session-start"
           }
         ]
       }
@@ -150,11 +151,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Funk.aiff &"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude_icloud/iterm2-tab.sh stop"
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude turn-complete"
           }
         ]
       }
@@ -164,21 +161,58 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude_icloud/iterm2-tab.sh reset"
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude prompt-submitted"
           }
         ]
       }
     ],
     "Notification": [
       {
+        "matcher": "permission_prompt|elicitation_dialog|agent_needs_input",
         "hooks": [
           {
             "type": "command",
-            "command": "afplay /System/Library/Sounds/Purr.aiff &"
-          },
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude attention"
+          }
+        ]
+      },
+      {
+        "matcher": "elicitation_complete|elicitation_response",
+        "hooks": [
           {
             "type": "command",
-            "command": "~/.claude_icloud/iterm2-tab.sh notification"
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude working"
+          }
+        ]
+      },
+      {
+        "matcher": "agent_completed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude turn-complete"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude working",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude failure",
+            "async": true
           }
         ]
       }
@@ -188,7 +222,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude_icloud/iterm2-tab.sh end"
+            "command": "exec \"${CLAUDE_CONFIG_DIR:-${HOME}/.claude}/notify.sh\" claude session-end"
           }
         ]
       }
