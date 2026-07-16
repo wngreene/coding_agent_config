@@ -41,7 +41,8 @@ Codex and Claude Code share a balanced notification policy:
 
 Set `CODING_AGENT_NOTIFY_MIN_SECONDS` when launching an agent to change the
 long-turn threshold. Notification bodies identify the agent and project but do
-not include prompt or response text.
+not include prompt or response text. Clicking a notification focuses the
+iTerm2 window, tab, and pane that produced it.
 
 It is safe to run again when the expected links already exist. It refuses to
 replace conflicting files or links; move those paths elsewhere before retrying.

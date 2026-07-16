@@ -20,6 +20,7 @@ status_line_use_colors = true
 terminal_title = []
 
 [tui.model_availability_nux]
+"gpt-5.5" = 4
 "gpt-5.6-sol" = 4
 
 [mcp_servers.expo]
@@ -29,6 +30,9 @@ url = "https://mcp.expo.dev/mcp"
 url = "https://developers.openai.com/mcp"
 
 [projects."/Users/wng/Projects/coding_agent_config"]
+trust_level = "trusted"
+
+[projects."/Users/wng/.emacs.d"]
 trust_level = "trusted"
 
 [[hooks.SessionStart]]

@@ -9,6 +9,36 @@ usage() {
 
 [[ "$#" -ge 2 ]] || usage
 
+# Invoked by clicking a notification: bring the originating iTerm2 session's
+# window, tab, and pane to the front.
+if [[ "$1" == "focus-session" ]]; then
+  exec /usr/bin/osascript - "$2" <<'APPLESCRIPT'
+on run argv
+  set targetId to item 1 of argv
+  tell application "iTerm2"
+    activate
+    repeat with w in windows
+      repeat with t in tabs of w
+        repeat with s in sessions of t
+          if unique ID of s is targetId then
+            select w
+            select t
+            select s
+            return
+          end if
+        end repeat
+      end repeat
+    end repeat
+  end tell
+end run
+APPLESCRIPT
+fi
+
+notifier_command="${BASH_SOURCE[0]}"
+if [[ "${notifier_command}" != /* ]]; then
+  notifier_command="${PWD}/${notifier_command}"
+fi
+
 agent="$1"
 event="$2"
 shift 2
@@ -94,15 +124,15 @@ set_tab_state() {
       title="${agent}: ${branch}"
       ;;
     attention)
-      red=70 green=38 blue=0
+      red=255 green=150 blue=0
       title="input ${agent}: ${branch}"
       ;;
     done)
-      red=10 green=45 blue=10
+      red=40 green=200 blue=80
       title="done ${agent}: ${branch}"
       ;;
     failed)
-      red=70 green=0 blue=0
+      red=230 green=40 blue=40
       title="failed ${agent}: ${branch}"
       ;;
     idle)
@@ -217,7 +247,12 @@ send_notification() {
   fi
 
   if command -v terminal-notifier >/dev/null 2>&1; then
-    notification_command=(terminal-notifier -title "${title}" -message "${message}" -group "coding-agent-${state_key}" -activate com.googlecode.iterm2)
+    notification_command=(terminal-notifier -title "${title}" -message "${message}" -group "coding-agent-${state_key}")
+    if [[ -n "${ITERM_SESSION_ID:-}" ]]; then
+      notification_command+=(-execute "'${notifier_command}' focus-session '${ITERM_SESSION_ID##*:}'")
+    else
+      notification_command+=(-activate com.googlecode.iterm2)
+    fi
     if [[ -n "${sound}" ]]; then
       notification_command+=(-sound "${sound}")
     fi
