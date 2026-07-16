@@ -29,8 +29,10 @@ assert_config_links() {
 
   assert_link "${script_dir}/AGENTS.md" "${codex_dir}/AGENTS.md"
   assert_link "${script_dir}/codex/config.toml" "${codex_dir}/config.toml"
+  assert_link "${script_dir}/notifications/notify.sh" "${codex_dir}/notify.sh"
   assert_link "${script_dir}/CLAUDE.md" "${claude_dir}/CLAUDE.md"
   assert_link "${script_dir}/claude/settings.json" "${claude_dir}/settings.json"
+  assert_link "${script_dir}/notifications/notify.sh" "${claude_dir}/notify.sh"
   assert_link "${script_dir}/claude/iterm2-tab.sh" "${claude_dir}/iterm2-tab.sh"
   assert_link "${script_dir}/claude/statusline.sh" "${claude_dir}/statusline.sh"
 }
@@ -92,5 +94,6 @@ test_default_directories
 test_environment_directories
 test_command_line_directories
 test_command_line_overrides_environment
+bash "${script_dir}/notifications/notify_test.sh"
 
 printf 'All installer tests passed.\n'

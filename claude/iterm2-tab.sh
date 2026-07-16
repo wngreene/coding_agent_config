@@ -28,19 +28,19 @@ branch=$(get_branch)
 case "${1:-}" in
   start)
     reset_tab_color
-    set_tab_title "<b>claude:</b> $branch"
+    set_tab_title "claude: $branch"
     ;;
   stop)
     set_tab_color 10 45 10
-    set_tab_title "<font color=\"lime\">done</font> <b>claude:</b> $branch"
+    set_tab_title "done claude: $branch"
     ;;
   notification)
     set_tab_color 70 38 0
-    set_tab_title "<font color=\"orange\">input</font> <b>claude:</b> $branch"
+    set_tab_title "input claude: $branch"
     ;;
   reset)
     reset_tab_color
-    set_tab_title "<b>claude:</b> $branch"
+    set_tab_title "claude: $branch"
     ;;
   end)
     reset_tab_color
