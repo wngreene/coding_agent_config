@@ -76,17 +76,17 @@ assert_logged 'tab|claude|working|example-project'
 assert_logged 'tab|claude|attention|example-project'
 assert_logged 'notification|claude|attention|example-project|Purr'
 assert_logged 'tab|claude|done|example-project'
-assert_logged 'notification|claude|done|example-project|'
+assert_logged 'notification|claude|done|example-project|Glass'
 assert_logged 'tab|claude|failed|example-project'
 assert_logged 'notification|claude|failed|example-project|Basso'
 assert_logged 'tab|claude|idle|example-project'
 assert_logged 'tab|codex|done|example-project'
-assert_logged 'notification|codex|done|example-project|'
+assert_logged 'notification|codex|done|example-project|Glass'
 
 quiet_payload='{"session_id":"quiet-session","cwd":"/tmp/quiet-project"}'
 run_event_with_policy claude prompt-submitted "${quiet_payload}" unfocused 30
 run_event_with_policy claude turn-complete "${quiet_payload}" unfocused 30
-assert_not_logged 'notification|claude|done|quiet-project|'
+assert_not_logged 'notification|claude|done|quiet-project|Glass'
 
 focused_payload='{"session_id":"focused-session","cwd":"/tmp/focused-project"}'
 run_event_with_policy claude attention "${focused_payload}" focused 0

@@ -33,7 +33,6 @@ assert_config_links() {
   assert_link "${script_dir}/CLAUDE.md" "${claude_dir}/CLAUDE.md"
   assert_link "${script_dir}/claude/settings.json" "${claude_dir}/settings.json"
   assert_link "${script_dir}/notifications/notify.sh" "${claude_dir}/notify.sh"
-  assert_link "${script_dir}/claude/iterm2-tab.sh" "${claude_dir}/iterm2-tab.sh"
   assert_link "${script_dir}/claude/statusline.sh" "${claude_dir}/statusline.sh"
 }
 

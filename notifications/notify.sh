@@ -100,6 +100,30 @@ current_branch() {
   git -C "${cwd}" rev-parse --abbrev-ref HEAD 2>/dev/null || printf '%s\n' "${project}"
 }
 
+# Hook processes spawned by Claude Code and Codex have no controlling
+# terminal, so /dev/tty is unusable. Fall back to walking up the process tree
+# to the agent process and using its tty device.
+resolve_tty() {
+  local pid tty_name
+
+  if { : >/dev/tty; } 2>/dev/null; then
+    tty </dev/tty 2>/dev/null && return 0
+  fi
+
+  pid=$$
+  while [[ -n "${pid}" && "${pid}" != 0 && "${pid}" != 1 ]]; do
+    tty_name="$(ps -o tty= -p "${pid}" 2>/dev/null | tr -d '[:space:]')"
+    if [[ -n "${tty_name}" && "${tty_name}" != '??' ]]; then
+      printf '/dev/%s\n' "${tty_name}"
+      return 0
+    fi
+    pid="$(ps -o ppid= -p "${pid}" 2>/dev/null | tr -d '[:space:]')"
+  done
+  return 1
+}
+
+output_tty="$(resolve_tty)" || output_tty=""
+
 log_test_action() {
   [[ -n "${test_log}" ]] || return 1
   printf '%s\n' "$1" >>"${test_log}"
@@ -113,9 +137,7 @@ set_tab_state() {
     return
   fi
 
-  if ! { : >/dev/tty; } 2>/dev/null; then
-    return
-  fi
+  [[ -n "${output_tty}" && -w "${output_tty}" ]] || return
 
   branch="$(current_branch)"
   case "${state}" in
@@ -136,7 +158,7 @@ set_tab_state() {
       title="failed ${agent}: ${branch}"
       ;;
     idle)
-      printf '\033]6;1;bg;red;default\007\033]6;1;bg;green;default\007\033]6;1;bg;blue;default\007' >/dev/tty
+      printf '\033]6;1;bg;red;default\007\033]6;1;bg;green;default\007\033]6;1;bg;blue;default\007' >"${output_tty}"
       title="${branch}"
       ;;
     *) return ;;
@@ -144,15 +166,13 @@ set_tab_state() {
 
   if [[ "${state}" != "idle" ]]; then
     printf '\033]6;1;bg;red;brightness;%s\007\033]6;1;bg;green;brightness;%s\007\033]6;1;bg;blue;brightness;%s\007' \
-      "${red}" "${green}" "${blue}" >/dev/tty
+      "${red}" "${green}" "${blue}" >"${output_tty}"
   fi
-  printf '\033]1;%s\007' "${title}" >/dev/tty
+  printf '\033]1;%s\007' "${title}" >"${output_tty}"
 }
 
 originating_tty() {
-  if { : >/dev/tty; } 2>/dev/null; then
-    tty </dev/tty 2>/dev/null || true
-  fi
+  printf '%s\n' "${output_tty}"
 }
 
 is_focused() {
@@ -232,7 +252,7 @@ send_notification() {
     done)
       title="🟢 ${agent_title} finished"
       message="${project} finished in $(format_duration "$2")"
-      sound=""
+      sound="Glass"
       ;;
     failed)
       title="🔴 ${agent_title} failed"

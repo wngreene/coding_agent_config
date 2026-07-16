@@ -24,7 +24,6 @@ The installer creates these user-level links:
 ~/.claude/CLAUDE.md -> <repository>/CLAUDE.md
 ~/.claude/settings.json -> <repository>/claude/settings.json
 ~/.claude/notify.sh -> <repository>/notifications/notify.sh
-~/.claude/iterm2-tab.sh -> <repository>/claude/iterm2-tab.sh
 ~/.claude/statusline.sh -> <repository>/claude/statusline.sh
 ```
 
@@ -33,8 +32,8 @@ The installer creates these user-level links:
 Codex and Claude Code share a balanced notification policy:
 
 - Input needed: amber tab, desktop notification, and the Purr sound.
-- Turn finished: green tab; a quiet desktop notification only for turns that
-  take at least 30 seconds.
+- Turn finished: green tab; a desktop notification with the Glass sound only
+  for turns that take at least 30 seconds.
 - Failure: red tab, desktop notification, and the Basso sound when the agent
   exposes a failure event.
 - Focused sessions do not produce desktop notifications or sounds.
