@@ -12,8 +12,8 @@ usage() {
     'Usage: bash install.sh [options]' \
     '' \
     'Options:' \
-    '  --claude-config-dir PATH  Install CLAUDE.md under PATH.' \
-    '  --codex-home PATH          Install AGENTS.md under PATH.' \
+    '  --claude-config-dir PATH  Install Claude configuration under PATH.' \
+    '  --codex-home PATH          Install Codex configuration under PATH.' \
     '  -h, --help                 Show this help.' \
     '' \
     'Defaults honor CLAUDE_CONFIG_DIR and CODEX_HOME, then fall back to the' \
@@ -66,8 +66,16 @@ fi
 
 codex_source="${script_dir}/AGENTS.md"
 codex_destination="${codex_home}/AGENTS.md"
+codex_config_source="${script_dir}/codex/config.toml"
+codex_config_destination="${codex_home}/config.toml"
 claude_source="${script_dir}/CLAUDE.md"
 claude_destination="${claude_config_dir}/CLAUDE.md"
+claude_settings_source="${script_dir}/claude/settings.json"
+claude_settings_destination="${claude_config_dir}/settings.json"
+claude_iterm2_tab_source="${script_dir}/claude/iterm2-tab.sh"
+claude_iterm2_tab_destination="${claude_config_dir}/iterm2-tab.sh"
+claude_statusline_source="${script_dir}/claude/statusline.sh"
+claude_statusline_destination="${claude_config_dir}/statusline.sh"
 
 is_expected_link() {
   local source="$1"
@@ -105,7 +113,15 @@ install_link() {
 }
 
 preflight_link "${codex_source}" "${codex_destination}"
+preflight_link "${codex_config_source}" "${codex_config_destination}"
 preflight_link "${claude_source}" "${claude_destination}"
+preflight_link "${claude_settings_source}" "${claude_settings_destination}"
+preflight_link "${claude_iterm2_tab_source}" "${claude_iterm2_tab_destination}"
+preflight_link "${claude_statusline_source}" "${claude_statusline_destination}"
 
 install_link "${codex_source}" "${codex_destination}"
+install_link "${codex_config_source}" "${codex_config_destination}"
 install_link "${claude_source}" "${claude_destination}"
+install_link "${claude_settings_source}" "${claude_settings_destination}"
+install_link "${claude_iterm2_tab_source}" "${claude_iterm2_tab_destination}"
+install_link "${claude_statusline_source}" "${claude_statusline_destination}"

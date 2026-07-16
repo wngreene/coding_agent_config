@@ -23,13 +23,24 @@ assert_link() {
   fi
 }
 
+assert_config_links() {
+  local claude_dir="$1"
+  local codex_dir="$2"
+
+  assert_link "${script_dir}/AGENTS.md" "${codex_dir}/AGENTS.md"
+  assert_link "${script_dir}/codex/config.toml" "${codex_dir}/config.toml"
+  assert_link "${script_dir}/CLAUDE.md" "${claude_dir}/CLAUDE.md"
+  assert_link "${script_dir}/claude/settings.json" "${claude_dir}/settings.json"
+  assert_link "${script_dir}/claude/iterm2-tab.sh" "${claude_dir}/iterm2-tab.sh"
+  assert_link "${script_dir}/claude/statusline.sh" "${claude_dir}/statusline.sh"
+}
+
 test_default_directories() {
   local home="${test_root}/default_home"
 
   HOME="${home}" CLAUDE_CONFIG_DIR='' CODEX_HOME='' bash "${installer}"
 
-  assert_link "${script_dir}/AGENTS.md" "${home}/.codex/AGENTS.md"
-  assert_link "${script_dir}/CLAUDE.md" "${home}/.claude/CLAUDE.md"
+  assert_config_links "${home}/.claude" "${home}/.codex"
 }
 
 test_environment_directories() {
@@ -40,8 +51,7 @@ test_environment_directories() {
   HOME="${home}" CLAUDE_CONFIG_DIR="${claude_dir}" CODEX_HOME="${codex_dir}" \
     bash "${installer}"
 
-  assert_link "${script_dir}/AGENTS.md" "${codex_dir}/AGENTS.md"
-  assert_link "${script_dir}/CLAUDE.md" "${claude_dir}/CLAUDE.md"
+  assert_config_links "${claude_dir}" "${codex_dir}"
 }
 
 test_command_line_directories() {
@@ -53,8 +63,7 @@ test_command_line_directories() {
     --claude-config-dir "${claude_dir}" \
     --codex-home "${codex_dir}"
 
-  assert_link "${script_dir}/AGENTS.md" "${codex_dir}/AGENTS.md"
-  assert_link "${script_dir}/CLAUDE.md" "${claude_dir}/CLAUDE.md"
+  assert_config_links "${claude_dir}" "${codex_dir}"
 }
 
 test_command_line_overrides_environment() {
@@ -71,8 +80,7 @@ test_command_line_overrides_environment() {
     --claude-config-dir "${argument_claude_dir}" \
     --codex-home "${argument_codex_dir}"
 
-  assert_link "${script_dir}/AGENTS.md" "${argument_codex_dir}/AGENTS.md"
-  assert_link "${script_dir}/CLAUDE.md" "${argument_claude_dir}/CLAUDE.md"
+  assert_config_links "${argument_claude_dir}" "${argument_codex_dir}"
 
   [[ ! -e "${environment_codex_dir}/AGENTS.md" ]]
   [[ ! -e "${environment_claude_dir}/CLAUDE.md" ]]

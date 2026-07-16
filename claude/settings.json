@@ -1,0 +1,209 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "WebFetch",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(echo:*)",
+      "Bash(grep:*)",
+      "Bash(tail:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(wc:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(diff:*)",
+      "Bash(which:*)",
+      "Bash(type:*)",
+      "Bash(date:*)",
+      "Bash(pwd:*)",
+      "Bash(dirname:*)",
+      "Bash(basename:*)",
+      "Bash(realpath:*)",
+      "Bash(jq:*)",
+      "Bash(uname:*)",
+      "Bash(whoami:*)",
+      "Bash(env:*)",
+      "Bash(printenv:*)",
+      "Bash(id:*)",
+      "Bash(df:*)",
+      "Bash(du:*)",
+      "Bash(tr:*)",
+      "Bash(cut:*)",
+      "Bash(tee:*)",
+      "Bash(tar:*)",
+      "Bash(unzip:*)",
+      "Bash(zip:*)",
+      "Bash(touch:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(sed:*)",
+      "Bash(awk:*)",
+      "Bash(xargs:*)",
+      "Bash(python3 -c:*)",
+      "Bash(python -c:*)",
+      "Bash(node -e:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git diff-tree:*)",
+      "Bash(git fetch:*)",
+      "Bash(git show:*)",
+      "Bash(git show-branch:*)",
+      "Bash(git -C:*)",
+      "Bash(git remote:*)",
+      "Bash(git blame:*)",
+      "Bash(git reflog:*)",
+      "Bash(git tag:*)",
+      "Bash(git worktree:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr edit:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh pr comment:*)",
+      "Bash(gh run view:*)",
+      "Bash(gt branch:*)",
+      "Bash(gt checkout:*)",
+      "Bash(gt modify:*)",
+      "Bash(gt sync:*)",
+      "Bash(gt restack:*)",
+      "Bash(gt add:*)",
+      "Bash(gt upstack:*)",
+      "Bash(gt submit:*)",
+      "Bash(gt create:*)",
+      "Bash(pre-commit:*)",
+      "Bash(ruff:*)",
+      "Bash(clang-format:*)",
+      "Bash(buildifier:*)",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 list:*)",
+      "Bash(pip show:*)",
+      "Bash(pip list:*)",
+      "Bash(npm run:*)",
+      "Bash(npm list:*)",
+      "Bash(npm test:*)",
+      "Bash(bazel build:*)",
+      "Bash(bazel test:*)",
+      "Bash(bazel query:*)",
+      "Bash(bazel cquery:*)",
+      "Bash(bazel info:*)",
+      "Bash(bazel mod:*)",
+      "Bash(bazel --version)",
+      "Bash(docker:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(nc:*)",
+      "Bash(ncat:*)",
+      "Bash(ssh:*)",
+      "Bash(scp:*)",
+      "Bash(sftp:*)",
+      "Bash(gt log:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git checkout --:*)",
+      "Bash(git clean:*)",
+      "Bash(git rebase:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(gh api:*)",
+      "Bash(gh issue:*)",
+      "Bash(chmod:*)",
+      "Bash(rm:*)",
+      "Bash(pip3 install:*)",
+      "Bash(pip install:*)",
+      "Bash(npm install:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "claude-fable-5[1m]",
+  "theme": "dark",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude_icloud/iterm2-tab.sh start"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Funk.aiff &"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude_icloud/iterm2-tab.sh stop"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude_icloud/iterm2-tab.sh reset"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Purr.aiff &"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude_icloud/iterm2-tab.sh notification"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude_icloud/iterm2-tab.sh end"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude_icloud/statusline.sh"
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}
