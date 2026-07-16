@@ -1,10 +1,11 @@
 # Coding Agent Config
 
-Personal communication guidance shared by Codex and Claude Code without adding
-user-specific preferences to a project repository.
+Personal guidance and settings shared by Codex and Claude Code without adding
+user-specific preferences to individual project repositories.
 
 `AGENTS.md` is the canonical guidance. `CLAUDE.md` is a repository-relative
-symlink to it so both agents read the same instructions.
+symlink to it so both agents read the same instructions. The repository also
+tracks personal Claude Code and Codex settings.
 
 ## Install
 
@@ -18,7 +19,11 @@ The installer creates these user-level links:
 
 ```text
 ~/.codex/AGENTS.md   -> <repository>/AGENTS.md
+~/.codex/config.toml -> <repository>/codex/config.toml
 ~/.claude/CLAUDE.md -> <repository>/CLAUDE.md
+~/.claude/settings.json -> <repository>/claude/settings.json
+~/.claude/iterm2-tab.sh -> <repository>/claude/iterm2-tab.sh
+~/.claude/statusline.sh -> <repository>/claude/statusline.sh
 ```
 
 It is safe to run again when the expected links already exist. It refuses to
@@ -26,6 +31,12 @@ replace conflicting files or links; move those paths elsewhere before retrying.
 
 Because the installed links are absolute, rerun the installer after moving the
 repository.
+
+For the personal iCloud Claude profile used to seed this repository, run:
+
+```bash
+bash install.sh --claude-config-dir "$HOME/.claude_icloud"
+```
 
 ## Multiple profiles
 

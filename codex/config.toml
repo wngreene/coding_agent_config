@@ -1,0 +1,23 @@
+personality = "pragmatic"
+model = "gpt-5.6-sol"
+plan_mode_reasoning_effort = "xhigh"
+model_reasoning_effort = "xhigh"
+
+[plugins."github@openai-curated"]
+enabled = true
+
+[plugins."slack@openai-curated"]
+enabled = true
+
+[apps.connector_76869538009648d5b282a4bb21c3d157.tools.github_reply_to_review_comment]
+approval_mode = "approve"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "pull-request-number", "context-remaining", "five-hour-limit", "weekly-limit", "context-window-size"]
+status_line_use_colors = true
+
+[mcp_servers.expo]
+url = "https://mcp.expo.dev/mcp"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
