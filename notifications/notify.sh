@@ -120,19 +120,19 @@ set_tab_state() {
   branch="$(current_branch)"
   case "${state}" in
     working)
-      printf '\033]6;1;bg;red;default\007\033]6;1;bg;green;default\007\033]6;1;bg;blue;default\007' >/dev/tty
+      red=30 green=130 blue=255
       title="${agent}: ${branch}"
       ;;
     attention)
-      red=255 green=150 blue=0
+      red=255 green=140 blue=0
       title="input ${agent}: ${branch}"
       ;;
     done)
-      red=40 green=200 blue=80
+      red=0 green=230 blue=70
       title="done ${agent}: ${branch}"
       ;;
     failed)
-      red=230 green=40 blue=40
+      red=255 green=30 blue=30
       title="failed ${agent}: ${branch}"
       ;;
     idle)
@@ -142,7 +142,7 @@ set_tab_state() {
     *) return ;;
   esac
 
-  if [[ "${state}" != "working" && "${state}" != "idle" ]]; then
+  if [[ "${state}" != "idle" ]]; then
     printf '\033]6;1;bg;red;brightness;%s\007\033]6;1;bg;green;brightness;%s\007\033]6;1;bg;blue;brightness;%s\007' \
       "${red}" "${green}" "${blue}" >/dev/tty
   fi
@@ -225,17 +225,17 @@ send_notification() {
 
   case "${kind}" in
     attention)
-      title="${agent_title} needs attention"
+      title="🟠 ${agent_title} needs attention"
       message="${project} is waiting for input"
       sound="Purr"
       ;;
     done)
-      title="${agent_title} finished"
+      title="🟢 ${agent_title} finished"
       message="${project} finished in $(format_duration "$2")"
       sound=""
       ;;
     failed)
-      title="${agent_title} failed"
+      title="🔴 ${agent_title} failed"
       message="${project} stopped because of an error"
       sound="Basso"
       ;;
