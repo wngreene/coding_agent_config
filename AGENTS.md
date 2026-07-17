@@ -17,3 +17,22 @@
   abstractions.
 - Respect the audience's limited attention. Make messages easy to scan and do
   not repeat information unless repetition prevents ambiguity.
+
+## Subagents and Parallel Work
+
+- Use subagents when work can be split into independent, bounded tasks and
+  parallel execution is likely to materially improve speed or quality.
+- Prefer subagents for read-heavy work such as codebase exploration, research,
+  test or log analysis, and independent review passes.
+- Give each subagent a clear scope, relevant constraints, and an expected
+  output. Ask for concise findings rather than raw intermediate output. Keep
+  the main agent responsible for coordination, synthesis, and final
+  verification.
+- Avoid delegation for small, sequential, or tightly coupled work. Use the
+  fewest agents that provide a meaningful benefit, accounting for token,
+  latency, and coordination costs.
+- Minimize concurrent edits to shared files. Partition write ownership by file
+  or component; use isolated worktrees when available and parallel edits could
+  conflict.
+- Before finishing, wait for delegated work, reconcile its results, and verify
+  the integrated outcome.
