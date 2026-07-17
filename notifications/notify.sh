@@ -143,19 +143,19 @@ set_tab_state() {
   case "${state}" in
     working)
       red=30 green=130 blue=255
-      title="${agent}: ${branch}"
+      title="${branch}: Working (${agent})"
       ;;
     attention)
       red=255 green=140 blue=0
-      title="input ${agent}: ${branch}"
+      title="${branch}: Input (${agent})"
       ;;
     done)
       red=0 green=230 blue=70
-      title="done ${agent}: ${branch}"
+      title="${branch}: Done (${agent})"
       ;;
     failed)
       red=255 green=30 blue=30
-      title="failed ${agent}: ${branch}"
+      title="${branch}: Failed (${agent})"
       ;;
     idle)
       printf '\033]6;1;bg;red;default\007\033]6;1;bg;green;default\007\033]6;1;bg;blue;default\007' >"${output_tty}"
