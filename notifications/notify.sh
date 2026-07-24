@@ -134,10 +134,10 @@ set_tab_state() {
   local branch title red green blue
 
   if log_test_action "tab|${agent}|${state}|${project}"; then
-    return
+    return 0
   fi
 
-  [[ -n "${output_tty}" && -w "${output_tty}" ]] || return
+  [[ -n "${output_tty}" && -w "${output_tty}" ]] || return 0
 
   branch="$(current_branch)"
   case "${state}" in
@@ -161,7 +161,7 @@ set_tab_state() {
       printf '\033]6;1;bg;red;default\007\033]6;1;bg;green;default\007\033]6;1;bg;blue;default\007' >"${output_tty}"
       title="${branch}"
       ;;
-    *) return ;;
+    *) return 0 ;;
   esac
 
   if [[ "${state}" != "idle" ]]; then
@@ -208,9 +208,9 @@ is_focused() {
 start_codex_exit_watcher() {
   local branch owner_pid source_tty
 
-  [[ "${agent}" == "codex" && -z "${test_log}" ]] || return
+  [[ "${agent}" == "codex" && -z "${test_log}" ]] || return 0
   source_tty="$(originating_tty)"
-  [[ -n "${source_tty}" ]] || return
+  [[ -n "${source_tty}" ]] || return 0
 
   branch="$(current_branch)"
   owner_pid="${PPID}"
@@ -259,11 +259,11 @@ send_notification() {
       message="${project} stopped because of an error"
       sound="Basso"
       ;;
-    *) return ;;
+    *) return 0 ;;
   esac
 
   if log_test_action "notification|${agent}|${kind}|${project}|${sound}"; then
-    return
+    return 0
   fi
 
   if command -v terminal-notifier >/dev/null 2>&1; then
@@ -277,7 +277,7 @@ send_notification() {
       notification_command+=(-sound "${sound}")
     fi
     "${notification_command[@]}" >/dev/null 2>&1 &
-    return
+    return 0
   fi
 
   osascript - "${title}" "${message}" <<'APPLESCRIPT' >/dev/null 2>&1 &
